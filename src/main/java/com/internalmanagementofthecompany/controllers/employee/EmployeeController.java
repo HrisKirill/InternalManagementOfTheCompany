@@ -42,7 +42,7 @@ public class EmployeeController {
 
     @DeleteMapping("/{id}")
     ResponseEntity<String> deleteEmployee(@PathVariable Long id) {
-        return new ResponseEntity<>(dao.delete(id), HttpStatus.OK);
+        return new ResponseEntity<>(dao.delete(id), HttpStatus.NO_CONTENT);
     }
 
 

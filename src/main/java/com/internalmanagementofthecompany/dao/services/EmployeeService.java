@@ -54,7 +54,7 @@ public class EmployeeService implements IEmployeeDao {
         if (employeeGettingByIdOptional.isPresent()) {
             return employeeGettingByIdOptional.get();
         } else {
-            throw new IllegalArgumentException("Unable to get employee");
+            throw new IllegalArgumentException("Employee is not found");
         }
     }
 
@@ -68,6 +68,4 @@ public class EmployeeService implements IEmployeeDao {
             throw new IllegalArgumentException("Unable to delete employee");
         }
     }
-
-
 }
