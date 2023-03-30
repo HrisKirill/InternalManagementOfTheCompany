@@ -1,15 +1,12 @@
 package com.internalmanagementofthecompany.dao.services;
 
-import com.internalmanagementofthecompany.dao.entities.employee.Employee;
-import com.internalmanagementofthecompany.dao.entities.employee.Level;
-import com.internalmanagementofthecompany.dao.entities.employee.Specialty;
+import com.internalmanagementofthecompany.entities.employee.Employee;
+import com.internalmanagementofthecompany.entities.employee.Level;
+import com.internalmanagementofthecompany.entities.employee.Specialty;
 import com.internalmanagementofthecompany.dao.repositories.EmployeeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 

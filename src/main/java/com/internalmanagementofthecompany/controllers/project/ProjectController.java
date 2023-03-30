@@ -1,7 +1,9 @@
 package com.internalmanagementofthecompany.controllers.project;
 
-import com.internalmanagementofthecompany.dao.entities.project.Project;
+import com.internalmanagementofthecompany.dto.project.ProjectDTO;
+import com.internalmanagementofthecompany.entities.project.Project;
 import com.internalmanagementofthecompany.dao.interfaces.IProjectDao;
+import com.internalmanagementofthecompany.mapper.ProjectToProjectDTOMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,18 +21,21 @@ public class ProjectController {
     }
 
     @PostMapping
-    ResponseEntity<Project> addEvent(@RequestBody Project project) {
-        return new ResponseEntity<>(dao.create(project), HttpStatus.OK);
+    ResponseEntity<ProjectDTO> addProject(@RequestBody Project project) {
+        Project projectDAO = dao.create(project);
+        return new ResponseEntity<>(ProjectToProjectDTOMapper.toDTO(projectDAO), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<Project> getEmployeeById(@PathVariable Long id) {
-        return new ResponseEntity<>(dao.getById(id).get(), HttpStatus.OK);
+    ResponseEntity<ProjectDTO> getEmployeeById(@PathVariable Long id) {
+        Project projectDAO = dao.getById(id);
+        return new ResponseEntity<>(ProjectToProjectDTOMapper.toDTO(projectDAO), HttpStatus.OK);
     }
 
     @PutMapping
-    ResponseEntity<Project> updateEmployee(@RequestBody Project project) {
-        return new ResponseEntity<>(dao.update(project), HttpStatus.OK);
+    ResponseEntity<ProjectDTO> updateEmployee(@RequestBody Project project) {
+        Project projectDAO = dao.update(project);
+        return new ResponseEntity<>(ProjectToProjectDTOMapper.toDTO(projectDAO), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

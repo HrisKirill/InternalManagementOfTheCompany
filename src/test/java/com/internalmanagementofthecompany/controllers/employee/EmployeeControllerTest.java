@@ -1,11 +1,11 @@
 package com.internalmanagementofthecompany.controllers.employee;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.internalmanagementofthecompany.dao.entities.employee.Employee;
-import com.internalmanagementofthecompany.dao.entities.employee.Level;
-import com.internalmanagementofthecompany.dao.entities.employee.Specialty;
+import com.internalmanagementofthecompany.dto.employee.EmployeeDTO;
+import com.internalmanagementofthecompany.entities.employee.Employee;
+import com.internalmanagementofthecompany.entities.employee.Level;
+import com.internalmanagementofthecompany.entities.employee.Specialty;
 import com.internalmanagementofthecompany.dao.interfaces.IEmployeeDao;
-import com.internalmanagementofthecompany.dao.services.EmployeeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,12 +17,9 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -37,10 +34,22 @@ class EmployeeControllerTest {
 
     EmployeeController controller = new EmployeeController(dao);
 
-    private JacksonTester<Employee> jsonUser;
+    private JacksonTester<EmployeeDTO> jsonUser;
 
     private Employee getTestEmployee() {
         return Employee.builder()
+                .id(1L)
+                .level(Level.JUN)
+                .name("Test")
+                .typeOfSpecialty("DevOps")
+                .specialty(Specialty.MANAGER)
+                .projects(Collections.emptySet())
+                .build();
+
+    }
+
+    private EmployeeDTO getTestEmployeeDTO() {
+        return EmployeeDTO.builder()
                 .id(1L)
                 .level(Level.JUN)
                 .name("Test")
@@ -64,10 +73,10 @@ class EmployeeControllerTest {
         MockHttpServletResponse response = mockMvc.perform(
                         post("/employee")
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content(jsonUser.write(getTestEmployee()).getJson()))
+                                .content(jsonUser.write(getTestEmployeeDTO()).getJson()))
                 .andReturn().getResponse();
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
-        assertThat(response.getContentAsString()).isEqualTo(jsonUser.write(getTestEmployee()).getJson());
+        assertThat(response.getContentAsString()).isEqualTo(jsonUser.write(getTestEmployeeDTO()).getJson());
     }
 
     @Test
@@ -76,7 +85,7 @@ class EmployeeControllerTest {
         MockHttpServletResponse response = mockMvc.perform(
                 get("/employee/1").accept(MediaType.APPLICATION_JSON)).andReturn().getResponse();
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
-        assertThat(response.getContentAsString()).isEqualTo(jsonUser.write(getTestEmployee()).getJson());
+        assertThat(response.getContentAsString()).isEqualTo(jsonUser.write(getTestEmployeeDTO()).getJson());
     }
 
     @Test
@@ -85,14 +94,14 @@ class EmployeeControllerTest {
         MockHttpServletResponse response = mockMvc.perform(
                         put("/employee")
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content(jsonUser.write(getTestEmployee()).getJson()))
+                                .content(jsonUser.write(getTestEmployeeDTO()).getJson()))
                 .andReturn().getResponse();
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
-        assertThat(response.getContentAsString()).isEqualTo(jsonUser.write(getTestEmployee()).getJson());
+        assertThat(response.getContentAsString()).isEqualTo(jsonUser.write(getTestEmployeeDTO()).getJson());
     }
 
     @Test
-    void deleteEmployeeTest()throws Exception {
+    void deleteEmployeeTest() throws Exception {
         when(dao.delete(getTestEmployee().getId()))
                 .thenReturn("Employee with id:" + getTestEmployee().getId() + " was successfully removed");
         MockHttpServletResponse response = mockMvc.perform(

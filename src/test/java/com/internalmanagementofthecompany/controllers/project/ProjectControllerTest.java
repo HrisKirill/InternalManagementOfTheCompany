@@ -1,10 +1,8 @@
 package com.internalmanagementofthecompany.controllers.project;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.internalmanagementofthecompany.dao.entities.employee.Employee;
-import com.internalmanagementofthecompany.dao.entities.employee.Level;
-import com.internalmanagementofthecompany.dao.entities.employee.Specialty;
-import com.internalmanagementofthecompany.dao.entities.project.Project;
+import com.internalmanagementofthecompany.dto.project.ProjectDTO;
+import com.internalmanagementofthecompany.entities.project.Project;
 import com.internalmanagementofthecompany.dao.interfaces.IProjectDao;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,7 +18,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -34,10 +31,13 @@ class ProjectControllerTest {
     IProjectDao dao = mock(IProjectDao.class);
     ProjectController controller = new ProjectController(dao);
 
-    private JacksonTester<Project> jsonUser;
+    private JacksonTester<ProjectDTO> jsonUser;
 
     private Project getTestProject() {
         return new Project(1L, "TestProject", Collections.emptySet());
+    }
+    private ProjectDTO getTestProjectDTO() {
+        return new ProjectDTO(1L, "TestProject");
     }
     @BeforeEach
     public void setup() {
@@ -52,10 +52,10 @@ class ProjectControllerTest {
         MockHttpServletResponse response = mockMvc.perform(
                         post("/project")
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content(jsonUser.write(getTestProject()).getJson()))
+                                .content(jsonUser.write(getTestProjectDTO()).getJson()))
                 .andReturn().getResponse();
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
-        assertThat(response.getContentAsString()).isEqualTo(jsonUser.write(getTestProject()).getJson());
+        assertThat(response.getContentAsString()).isEqualTo(jsonUser.write(getTestProjectDTO()).getJson());
     }
 
     @Test
@@ -64,7 +64,7 @@ class ProjectControllerTest {
         MockHttpServletResponse response = mockMvc.perform(
                 get("/project/1").accept(MediaType.APPLICATION_JSON)).andReturn().getResponse();
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
-        assertThat(response.getContentAsString()).isEqualTo(jsonUser.write(getTestProject()).getJson());
+        assertThat(response.getContentAsString()).isEqualTo(jsonUser.write(getTestProjectDTO()).getJson());
     }
 
     @Test
@@ -73,10 +73,10 @@ class ProjectControllerTest {
         MockHttpServletResponse response = mockMvc.perform(
                         put("/project")
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content(jsonUser.write(getTestProject()).getJson()))
+                                .content(jsonUser.write(getTestProjectDTO()).getJson()))
                 .andReturn().getResponse();
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
-        assertThat(response.getContentAsString()).isEqualTo(jsonUser.write(getTestProject()).getJson());
+        assertThat(response.getContentAsString()).isEqualTo(jsonUser.write(getTestProjectDTO()).getJson());
     }
 
     @Test

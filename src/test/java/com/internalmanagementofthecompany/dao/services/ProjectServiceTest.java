@@ -1,9 +1,6 @@
 package com.internalmanagementofthecompany.dao.services;
 
-import com.internalmanagementofthecompany.dao.entities.employee.Employee;
-import com.internalmanagementofthecompany.dao.entities.employee.Level;
-import com.internalmanagementofthecompany.dao.entities.employee.Specialty;
-import com.internalmanagementofthecompany.dao.entities.project.Project;
+import com.internalmanagementofthecompany.entities.project.Project;
 import com.internalmanagementofthecompany.dao.repositories.ProjectRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

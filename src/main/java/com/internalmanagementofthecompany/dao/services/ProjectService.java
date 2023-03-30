@@ -1,7 +1,6 @@
 package com.internalmanagementofthecompany.dao.services;
 
-import com.internalmanagementofthecompany.dao.entities.employee.Employee;
-import com.internalmanagementofthecompany.dao.entities.project.Project;
+import com.internalmanagementofthecompany.entities.project.Project;
 import com.internalmanagementofthecompany.dao.interfaces.IProjectDao;
 import com.internalmanagementofthecompany.dao.repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,8 +44,13 @@ public class ProjectService implements IProjectDao {
     }
 
     @Override
-    public Optional<Project> getById(Long id) {
-        return repository.findById(id);
+    public Project getById(Long id) {
+        Optional<Project> projectGettingByIdOptional = repository.findById(id);
+        if (projectGettingByIdOptional.isPresent()) {
+            return projectGettingByIdOptional.get();
+        } else {
+            throw new IllegalArgumentException("Unable to get project");
+        }
     }
 
     @Override
